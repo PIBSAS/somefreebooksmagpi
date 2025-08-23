@@ -31,7 +31,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs  # 👈 carpeta donde tu script deja el index.html y demás
+          path: / # 👈 carpeta donde tu script deja el index.html y demás
           
   deploy:
     needs: build
@@ -40,7 +40,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: github-pages
+      name: main
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
