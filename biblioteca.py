@@ -18,6 +18,13 @@ STATIC_DIR = os.path.join(DOCS_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 
 # --- Funciones ---
+def buscar_pdfs_en_root(base_dir):
+    pdfs = []
+    for f in os.listdir(base_dir):
+        if f.lower().endswith(".pdf"):
+            pdfs.append((os.path.join(base_dir, f), ".", f))
+    return pdfs
+"""
 def buscar_pdfs_recursivo(base_dir):
     pdfs = []
     for root, _, files in os.walk(base_dir):
@@ -32,7 +39,7 @@ def buscar_pdfs_recursivo(base_dir):
                     carpeta_relativa = carpeta_relativa.replace("\\", "/")
                 pdfs.append((os.path.join(root, f), carpeta_relativa, f))
     return pdfs
-
+"""
 def crear_logo_pdf(ruta_salida):
     img = Image.new("RGB", (256, 256), (220, 20, 60))
     draw = ImageDraw.Draw(img)
@@ -73,10 +80,10 @@ def crear_manifest():
 
 def crear_service_worker(pdfs):
     urls = ["./", "/static/logo.webp", "/static/favicon.ico", "/static/site.webmanifest"]
-    for ruta_pdf, carpeta, archivo in pdfs:
+    for _, _, archivo in pdfs:
         base = os.path.splitext(archivo)[0]
-        miniatura = f"/{carpeta}/{base}.webp" if carpeta!="." else f"/{base}.webp"
-        pdf_url = f"/{carpeta}/{archivo}" if carpeta!="." else f"/{archivo}"
+        miniatura = f"{base}.webp"
+        pdf_url = f"/{archivo}"
         urls.append(pdf_url)
         urls.append(miniatura)
     contenido = f"""
@@ -120,32 +127,23 @@ def extraer_miniaturas(pdfs):
             print(f"Error en {archivo}: {e}")
 
 def generar_html(pdfs):
-    from collections import defaultdict
-    pdfs_por_carpeta = defaultdict(list)
-    for ruta, carpeta, archivo in pdfs:
-        carpeta_cod = quote(carpeta) if carpeta!="." else "."
-        archivo_cod = quote(archivo)
-        pdfs_por_carpeta[carpeta_cod].append((archivo_cod, archivo))
-
     html = "<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'><title>PDF Web</title>"
     html += "<link rel='icon' href='static/favicon.ico'><link rel='manifest' href='static/site.webmanifest'>"
     html += "<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('static/service-worker.js'))}</script>"
     html += "<style>body{font-family:Arial,sans-serif;} .pdfs-container{display:grid;gap:20px;}</style></head><body>"
-    for carpeta, archivos in pdfs_por_carpeta.items():
-        html += f"<h2>{unquote(carpeta)}</h2><div class='pdfs-container'>"
-        for archivo_cod, nombre in archivos:
-            base = os.path.splitext(nombre)[0]
-            ruta_miniatura = f"{carpeta}/{base}.webp" if carpeta!="." else f"{base}.webp"
-            ruta_pdf = f"{carpeta}/{archivo_cod}" if carpeta!="." else archivo_cod
-            html += f"<div><img src='{ruta_miniatura}' width='200' onclick=\"window.open('{ruta_pdf}','_blank')\"><p>{base}</p></div>"
-        html += "</div>"
+    
+    for _, _, archivo in pdfs:
+        base = os.path.splitext(archivo)[0]
+        ruta_miniatura = f"{base}.webp"
+        ruta_pdf = f"{archivo}"
+        html += f"<div><img src='{ruta_miniatura}' width='200' onclick=\"window.open('{ruta_pdf}','_blank')\"><p>{base}</p></div>"
     html += "</body></html>"
     ruta_index = os.path.join(DOCS_DIR, "index.html")
     with open(ruta_index, "w", encoding="utf-8") as f:
         f.write(html)
 
 # --- Ejecución ---
-pdf_files = buscar_pdfs_recursivo(PDF_DIR)
+pdf_files = buscar_pdfs_en_root(PDF_DIR)
 extraer_miniaturas(pdf_files)
 crear_logo_pdf(os.path.join(STATIC_DIR, "logo.webp"))
 crear_favicon()
