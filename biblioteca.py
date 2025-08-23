@@ -7,7 +7,7 @@ import fitz
 from PIL import Image, ImageDraw, ImageFont
 
 BASE_DIR = os.getcwd()
-DOCS_DIR = os.path.join(BASE_DIR, "docs")
+DOCS_DIR = BASE_DIR
 PDF_DIR = BASE_DIR  # carpeta con tus PDFs
 ANCHO = 332
 ALTO = 443
@@ -111,7 +111,7 @@ self.addEventListener("fetch", event => {{
 def extraer_miniaturas(pdfs):
     for ruta_pdf, carpeta, archivo in pdfs:
         base = os.path.splitext(archivo)[0]
-        salida_carpeta = os.path.join(DOCS_DIR, carpeta)
+        salida_carpeta = STATIC_DIR
         os.makedirs(salida_carpeta, exist_ok=True)
         salida_miniatura = os.path.join(salida_carpeta, base+".webp")
         if os.path.exists(salida_miniatura):
