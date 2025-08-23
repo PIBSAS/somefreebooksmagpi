@@ -134,7 +134,7 @@ def generar_html(pdfs):
     
     for _, _, archivo in pdfs:
         base = os.path.splitext(archivo)[0]
-        ruta_miniatura = f"{base}.webp"
+        ruta_miniatura = f"/static/{base}.webp"
         ruta_pdf = f"{archivo}"
         html += f"<div><img src='{ruta_miniatura}' width='200' onclick=\"window.open('{ruta_pdf}','_blank')\"><p>{base}</p></div>"
     html += "</body></html>"
