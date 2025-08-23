@@ -3,8 +3,8 @@ name: Build & Deploy PDFs site
 on:
   push:
     branches:
-      - main   # rama donde tienes tu código
-  workflow_dispatch:  # permite lanzarlo manualmente desde Actions
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5.6.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
@@ -26,4 +26,23 @@ jobs:
 
       - name: Run PDF build script
         run: |
-          python biblioteca.py  # <--- cambia por el nombre real de tu script
+          python biblioteca.py   # <-- tu script genera html, imágenes, etc. en docs/ o public/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs  # 👈 carpeta donde tu script deja el index.html y demás
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
