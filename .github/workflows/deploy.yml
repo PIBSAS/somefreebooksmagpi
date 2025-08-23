@@ -1,0 +1,35 @@
+name: Build & Deploy PDFs site
+
+on:
+  push:
+    branches:
+      - main   # rama donde tienes tu código
+  workflow_dispatch:  # permite lanzarlo manualmente desde Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5.0.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pymupdf pillow flask
+
+      - name: Run PDF build script
+        run: |
+          python biblioteca.py  # <--- cambia por el nombre real de tu script
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.1.12
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs   # <-- donde tu script genera el sitio
