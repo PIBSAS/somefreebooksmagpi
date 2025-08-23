@@ -1,0 +1,21 @@
+{
+    "name": "Mi Web App PDF",
+    "short_name": "PDFApp",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#dc143c",
+    "theme_color": "#dc143c",
+    "description": "Visualizador de PDFs con miniaturas",
+    "icons": [
+        {
+            "src": "/static/logo.webp",
+            "sizes": "256x256",
+            "type": "image/webp"
+        },
+        {
+            "src": "/static/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}
