@@ -27,10 +27,3 @@ jobs:
       - name: Run PDF build script
         run: |
           python biblioteca.py  # <--- cambia por el nombre real de tu script
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs   # <-- donde tu script genera el sitio
-          exclude_assets: ""   # evita problemas con .*
