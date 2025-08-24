@@ -40,18 +40,28 @@ def buscar_pdfs_recursivo(base_dir):
                 pdfs.append((os.path.join(root, f), carpeta_relativa, f))
     return pdfs
 """
-def crear_logo_pdf(ruta_salida):
-    img = Image.new("RGB", (256, 256), (220, 20, 60))
+def crear_logo_pdf(ruta_salida=os.path.join(STATIC_DIR,'logo.webp', tamaño=(256, 256)):
+    fondo_rojo = (220, 20, 60)
+    texto_blanco = (255, 255, 255)
+
+    img = Image.new("RGB", tamaño, fondo_rojo)
     draw = ImageDraw.Draw(img)
+
     try:
-        fuente = ImageFont.truetype("arialbd.ttf", size=100)
+        fuente = ImageFont.truetype("arialbd.ttf", size=int(tamaño[1] * 0.4))
     except:
         fuente = ImageFont.load_default()
+
     texto = "PDF"
-    bbox = draw.textbbox((0,0), texto, font=fuente)
-    posicion = ((256-(bbox[2]-bbox[0])//2), (256-(bbox[3]-bbox[1])//2))
-    draw.text(posicion, texto, fill=(255,255,255), font=fuente)
+    bbox = draw.textbbox((0, 0), texto, font=fuente)
+    texto_ancho = bbox[2] - bbox[0]
+    texto_alto = bbox[3] - bbox[1]
+    posicion = ((tamaño[0] - texto_ancho) // 2, (tamaño[1] - texto_alto) // 2)
+
+    draw.text(posicion, texto, fill=texto_blanco, font=fuente)
+
     img.save(ruta_salida, "WEBP")
+    print(f"Logo PDF creado: {ruta_salida}")
 
 def crear_favicon():
     ruta_logo = os.path.join(STATIC_DIR, "logo.webp")
@@ -62,8 +72,8 @@ def crear_favicon():
 
 def crear_manifest():
     manifest = {
-        "name": "Mi Web App PDF",
-        "short_name": "PDFApp",
+        "name": "Some Free PDFs",
+        "short_name": "PDFsApp",
         "start_url": "./",
         "display": "standalone",
         "background_color": "#dc143c",
