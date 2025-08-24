@@ -71,8 +71,8 @@ def crear_favicon():
 def crear_manifest():
     manifest = {
         "name": "Some Free PDFs",
-        "short_name": "PDFsApp",
-        "start_url": "./",
+        "short_name": "PDFs App",
+        "start_url": "./index.html",
         "display": "standalone",
         "background_color": "#dc143c",
         "theme_color": "#dc143c",
