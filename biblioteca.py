@@ -7,14 +7,12 @@ import fitz
 from PIL import Image, ImageDraw, ImageFont
 
 BASE_DIR = os.getcwd()
-DOCS_DIR = BASE_DIR
 PDF_DIR = BASE_DIR  # carpeta con tus PDFs
 ANCHO = 332
 ALTO = 443
 
 # --- Crear carpetas necesarias ---
-os.makedirs(DOCS_DIR, exist_ok=True)
-STATIC_DIR = os.path.join(DOCS_DIR, "static")
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 
 # --- Funciones ---
@@ -325,7 +323,7 @@ def generar_html(pdfs):
     </body>
     </html>
     """
-    ruta_index = os.path.join(DOCS_DIR, "index.html")
+    ruta_index = os.path.join(BASE_DIR, "index.html")
     with open(ruta_index, "w", encoding="utf-8") as f:
         f.write(html)
 
