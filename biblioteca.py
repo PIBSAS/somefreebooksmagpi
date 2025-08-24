@@ -65,21 +65,21 @@ def crear_favicon():
     ruta_logo = os.path.join(STATIC_DIR, "logo.webp")
     ruta_fav = os.path.join(STATIC_DIR, "favicon.ico")
     img = Image.open(ruta_logo).convert("RGBA")
-    img = img.resize((64,64), Image.LANCZOS)
+    img = img.resize((128,128), Image.LANCZOS)
     img.save(ruta_fav, format="ICO")
 
 def crear_manifest():
     manifest = {
         "name": "Some Free PDFs",
         "short_name": "PDFs App",
-        "start_url": "./index.html",
+        "start_url": "../index.html",
         "display": "standalone",
         "background_color": "#dc143c",
         "theme_color": "#dc143c",
         "description": "Visualizador de PDFs con miniaturas",
         "icons": [
             {"src": "static/logo.webp", "sizes": "256x256", "type": "image/webp"},
-            {"src": "static/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon"}
+            {"src": "static/favicon.ico", "sizes": "128x128 64x64 32x32 24x24 16x16", "type": "image/x-icon"}
         ]
     }
     ruta = os.path.join(STATIC_DIR, "site.webmanifest")
