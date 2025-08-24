@@ -1,6 +1,6 @@
 {
-    "name": "Mi Web App PDF",
-    "short_name": "PDFApp",
+    "name": "Some Free PDFs",
+    "short_name": "PDFsApp",
     "start_url": "./",
     "display": "standalone",
     "background_color": "#dc143c",
