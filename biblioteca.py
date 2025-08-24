@@ -40,7 +40,7 @@ def buscar_pdfs_recursivo(base_dir):
                 pdfs.append((os.path.join(root, f), carpeta_relativa, f))
     return pdfs
 """
-def crear_logo_pdf(ruta_salida=os.path.join(STATIC_DIR,'logo.webp', tamaño=(256, 256)):
+def crear_logo_pdf(ruta_salida=os.path.join(STATIC_DIR, "logo.webp"), tamaño=(256, 256)):
     fondo_rojo = (220, 20, 60)
     texto_blanco = (255, 255, 255)
 
