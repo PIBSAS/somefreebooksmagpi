@@ -70,8 +70,8 @@ def crear_manifest():
         "theme_color": "#dc143c",
         "description": "Visualizador de PDFs con miniaturas",
         "icons": [
-            {"src": "/static/logo.webp", "sizes": "256x256", "type": "image/webp"},
-            {"src": "/static/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon"}
+            {"src": "static/logo.webp", "sizes": "256x256", "type": "image/webp"},
+            {"src": "static/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon"}
         ]
     }
     ruta = os.path.join(STATIC_DIR, "site.webmanifest")
@@ -79,7 +79,7 @@ def crear_manifest():
         json.dump(manifest, f, indent=4)
 
 def crear_service_worker(pdfs):
-    urls = ["./", "/static/logo.webp", "/static/favicon.ico", "/static/site.webmanifest"]
+    urls = ["./", "static/logo.webp", "static/favicon.ico", "static/site.webmanifest"]
     for _, _, archivo in pdfs:
         base = os.path.splitext(archivo)[0]
         miniatura = f"{base}.webp"
@@ -134,7 +134,7 @@ def generar_html(pdfs):
     
     for _, _, archivo in pdfs:
         base = os.path.splitext(archivo)[0]
-        ruta_miniatura = f"/static/{base}.webp"
+        ruta_miniatura = f"static/{base}.webp"
         ruta_pdf = f"{archivo}"
         html += f"<div><img src='{ruta_miniatura}' width='200' onclick=\"window.open('{ruta_pdf}','_blank')\"><p>{base}</p></div>"
     html += "</body></html>"
